@@ -21,17 +21,17 @@ class CarWashStation:
             1,
         )
 
-    def wash_single_car(self, car_list: list) -> None:
-        for car in car_list:
-            if self.clean_power >= car.clean_mark:
-                car.clean_mark = self.clean_power
+    def wash_single_car(self, car: object) -> None:
+        if self.clean_power >= car.clean_mark:
+            car.clean_mark = self.clean_power
 
-    def serve_cars(self, car_list: list) -> float:
+    def serve_cars(self, car_list: list[Car]) -> float:
         washed_cars = [car for car in car_list
                        if car.clean_mark < self.clean_power]
         total_income = sum(self.calculate_washing_price(car)
                            for car in washed_cars)
-        self.wash_single_car(car_list)
+        for car in washed_cars:
+            self.wash_single_car(car)
         return round(total_income, 1)
 
     def rate_service(self, rating: float) -> None:
